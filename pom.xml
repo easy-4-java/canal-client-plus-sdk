@@ -21,7 +21,7 @@
 		<pulsar-client.version>3.0.0</pulsar-client.version>
 		<rocketmq-client.version>4.9.2</rocketmq-client.version>
 		<mybatis-plus.version>3.5.3.1</mybatis-plus.version>
-		<spring-framework.version>5.2.15.RELEASE</spring-framework.version>
+		<spring-framework.version>6.1.20</spring-framework.version>
 		</properties>
 	<dependencies>
 		<dependency><groupId>org.projectlombok</groupId><artifactId>lombok</artifactId><version>${lombok.version}</version><scope>provided</scope></dependency>
