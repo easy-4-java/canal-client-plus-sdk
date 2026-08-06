@@ -1,6 +1,8 @@
 # canal-client-plus-sdk
 
-[![Java](https://img.shields.io/badge/Java-8-orange)] [![License](https://img.shields.io/badge/license-Apache%202.0-green)](https://www.apache.org/licenses/LICENSE-2.0.txt)
+[English](./README.md) | [简体中文](./README.zh-CN.md)
+
+[![License](https://img.shields.io/badge/license-Apache%202.0-green)
 
 > 基于阿里巴巴 Canal 官方客户端的增强 SDK（与 Spring Boot 解耦）：Simple / Cluster /
 > Kafka / Pulsar / RocketMQ / RabbitMQ 类型化客户端、消息与行数据处理器、
@@ -19,8 +21,6 @@
 - [9. 测试与构建](#9-测试与构建)
 - [10. 版本与分支](#10-版本与分支)
 - [11. 贡献与许可](#11-贡献与许可)
-
-[English](./README.md) | [简体中文](./README.zh-CN.md)
 
 ## 1. 项目概述
 
