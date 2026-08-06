@@ -4,6 +4,18 @@
 	<groupId>io.github.easy4j</groupId>
 	<artifactId>canal-client-plus-sdk</artifactId>
 	<description>Canal Client Plus SDK - Handlers, Models, Annotations (Spring Boot Independent)</description>
+    <developers>
+        <developer>
+            <name>Loong Wan</name>
+            <email>hiwepy@gmail.com</email>
+            <url>https://github.com/loong10k</url>
+            <roles>
+                <role>developer</role>
+            </roles>
+            <timezone>+8</timezone>
+        </developer>
+    </developers>
+
 	<version>3.0.x.20260630-SNAPSHOT</version>
 	<packaging>jar</packaging>
 	<properties>
