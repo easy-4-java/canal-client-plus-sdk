@@ -62,7 +62,9 @@
         <spring-framework.version>5.2.15.RELEASE</spring-framework.version>
         <maven-compiler-plugin.version>3.15.0</maven-compiler-plugin.version>
         <jacoco-maven-plugin.version>0.8.15</jacoco-maven-plugin.version>
-    </properties>
+    
+		<rabbit-amqp-client.version>5.32.0</rabbit-amqp-client.version>
+		<transmittable-thread-local.version>2.14.5</transmittable-thread-local.version></properties>
 
     <!-- 依赖版本统一管理（dependencyManagement） -->
     <dependencyManagement>
@@ -120,7 +122,7 @@
             <dependency>
                 <groupId>com.rabbitmq</groupId>
                 <artifactId>amqp-client</artifactId>
-                <version>5.18.0</version>
+                <version>${rabbit-amqp-client.version}</version>
                 <scope>provided</scope>
             </dependency>
             <!-- For Kafka -->
@@ -166,7 +168,7 @@
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>transmittable-thread-local</artifactId>
-                <version>2.14.2</version>
+                <version>${transmittable-thread-local.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
