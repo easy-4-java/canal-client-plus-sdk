@@ -4,7 +4,7 @@
 	<groupId>io.github.easy4j</groupId>
 	<artifactId>canal-client-plus-sdk</artifactId>
 	<description>Canal Client Plus SDK - Handlers, Models, Annotations (Spring Boot Independent)</description>
-    <developers>
+        <developers>
         <developer>
             <name>Loong Wan</name>
             <email>hiwepy@gmail.com</email>
