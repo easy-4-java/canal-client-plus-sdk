@@ -2,7 +2,7 @@
 
 [English](./README.md) | [简体中文](./README.zh-CN.md)
 
-[![Java](https://img.shields.io/badge/Java-17-orange)] [![License](https://img.shields.io/badge/license-Apache%202.0-green)](https://www.apache.org/licenses/LICENSE-2.0.txt)
+[![Java](https://img.shields.io/badge/Java-17-orange)](https://github.com/easy-4-java/canal-client-plus-sdk) [![License](https://img.shields.io/badge/license-Apache%202.0-green)](https://www.apache.org/licenses/LICENSE-2.0.txt)
 
 > 基于阿里巴巴 Canal 官方客户端的增强 SDK（与 Spring Boot 解耦）：Simple / Cluster /
 > Kafka / Pulsar / RocketMQ / RabbitMQ 类型化客户端、消息与行数据处理器、
