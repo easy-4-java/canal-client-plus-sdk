@@ -21,29 +21,48 @@ import java.lang.reflect.Method;
 import java.util.*;
 
 /**
- * @author yang peng
- * @date 2019/3/2921:38
+ * Abstract base implementation of {@link MessageHandler} for protobuf-based
+ * {@link Message} objects. Iterates over Canal entries, resolves the
+ * appropriate handler (annotation-driven or interface-driven), and
+ * dispatches row data for processing.
+ *
+ * <p>Also implements {@link ApplicationContextAware} to discover and
+ * register {@link CanalEventHandler}-annotated beans on startup.</p>
+ *
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
+ * @see SyncMessageHandlerImpl
+ * @see AsyncMessageHandlerImpl
+ * @see AbstractFlatMessageHandler
  */
 @Slf4j
 public abstract class AbstractMessageHandler implements MessageHandler<Message>, ApplicationContextAware {
 
     /**
-     * 指定订阅的事件类型，主要用于标识事务的开始，变更数据，结束
+     * The subscribed entry types that this handler will process.
+     * Defaults to {@link CanalEntry.EntryType#ROWDATA}.
      */
     private List<CanalEntry.EntryType> subscribeTypes = Arrays.asList(CanalEntry.EntryType.ROWDATA);
     /**
-     * 通过注解方式的表数据变更处理器
+     * Annotation-based event holders keyed by a composite destination+schema+table+eventType key.
      */
     private Map<String, List<CanalEventHolder>> tableEventHolderMap;
     /**
-     * 表数据变更处理器
+     * Interface-based entry handlers keyed by table name combination.
      */
     private Map<String, EntryHandler> tableHandlerMap;
     /**
-     * 行数据处理器
+     * The row data handler used to dispatch individual row changes.
      */
     private RowDataHandler<CanalEntry.RowData> rowDataHandler;
 
+    /**
+     * Constructs a new handler with the given entry handlers and row data handler.
+     *
+     * @param subscribeTypes the entry types to subscribe to, or {@code null} for defaults
+     * @param entryHandlers  the list of entry handlers
+     * @param rowDataHandler the row data handler for dispatching changes
+     */
     public AbstractMessageHandler(List<CanalEntry.EntryType> subscribeTypes,
                                   List<? extends EntryHandler> entryHandlers,
                                   RowDataHandler<CanalEntry.RowData> rowDataHandler) {
@@ -54,28 +73,40 @@ public abstract class AbstractMessageHandler implements MessageHandler<Message>,
         this.rowDataHandler = rowDataHandler;
     }
 
+    /**
+     * Checks whether the given entry type is subscribed.
+     *
+     * @param entryType the entry type to check
+     * @return {@code true} if subscribed
+     */
     protected boolean isSubscribed(CanalEntry.EntryType entryType) {
         return subscribeTypes.contains(entryType);
     }
 
+    /**
+     * Processes a Canal message by iterating its entries and dispatching
+     * row data changes to the appropriate handlers.
+     *
+     * @param destination the Canal destination name
+     * @param message     the Canal message to process
+     */
     @Override
     public void handleMessage(String destination, Message message) {
-        // 遍历 entryes，单条解析
+        // Iterate entries and process each one
         for (CanalEntry.Entry entry : message.getEntries()) {
-            // 获取类型
+            // Get entry type
             CanalEntry.EntryType entryType = entry.getEntryType();
-            // 判断当前entryType类型是否订阅
+            // Check if this entry type is subscribed
             if (this.isSubscribed(entryType)) {
-                // 获取数据库实例
+                // Get schema and table names
                 String schemaName = entry.getHeader().getSchemaName();
-                // 获取表名
                 String tableName = entry.getHeader().getTableName();
                 try {
-                    // 获取序列化后的数据
+                    // Parse the serialized row change data
                     CanalEntry.RowChange rowChange = CanalEntry.RowChange.parseFrom(entry.getStoreValue());
-                    // 获取当前事件的操作类型
+                    // Get the event type
                     CanalEntry.EventType eventType = rowChange.getEventType();
-                    // 获取表对应的注解处理器
+                    // Try annotation-based event holders first
                     List<CanalEventHolder> eventHolders = HandlerUtil.getEventHolders(tableEventHolderMap, destination, schemaName, tableName, eventType);
                     if(!CollectionUtils.isEmpty(eventHolders)){
                         CanalModel model = CanalModel.builder()
@@ -90,9 +121,8 @@ public abstract class AbstractMessageHandler implements MessageHandler<Message>,
                         }
                         continue;
                     }
-                    // 获取表对应的处理器
+                    // Fall back to interface-based entry handler
                     EntryHandler<?> entryHandler = HandlerUtil.getEntryHandler(tableHandlerMap, schemaName, tableName);
-                    // 判断是否有对应的处理器
                     if(Objects.nonNull(entryHandler)){
                         CanalModel model = CanalModel.builder()
                                 .id(message.getId())
@@ -101,7 +131,7 @@ public abstract class AbstractMessageHandler implements MessageHandler<Message>,
                                 .eventType(eventType)
                                 .executeTime(entry.getHeader().getExecuteTime())
                                 .build();
-                        // 遍历RowDataList，并逐行调用Handler处理
+                        // Dispatch each row to the handler
                         for (CanalEntry.RowData rowData : rowChange.getRowDatasList()) {
                             this.handlerRowData(model, rowData, entryHandler, eventType);
                         }
@@ -110,11 +140,20 @@ public abstract class AbstractMessageHandler implements MessageHandler<Message>,
                     throw new RuntimeException("parse event has an error , data:" + entry.toString(), e);
                 }
             } else {
-                log.info("当前操作类型为：{}", entryType);
+                log.info("current entry type: {}", entryType);
             }
         }
     }
 
+    /**
+     * Dispatches a row change to an annotation-based event holder via reflection.
+     *
+     * @param model      the canal model context
+     * @param rowChange  the parsed row change
+     * @param eventHolder the annotation event holder
+     * @param eventType  the event type
+     * @throws Exception if method invocation fails
+     */
     public void handlerRowData(CanalModel model, CanalEntry.RowChange rowChange, CanalEventHolder eventHolder, CanalEntry.EventType eventType) throws Exception {
         try {
             CanalContext.setModel(model);
@@ -123,36 +162,51 @@ public abstract class AbstractMessageHandler implements MessageHandler<Message>,
             Object[] args = GenericUtil.getInvokeArgs(method, model, rowChange, eventType);
             method.invoke(eventHolder.getTarget(), args);
         } finally {
-            // 移除上下文
+            // Remove context
             CanalContext.removeModel();
         }
     }
 
+    /**
+     * Dispatches a row to an interface-based entry handler.
+     *
+     * @param model        the canal model context
+     * @param rowData      the row data
+     * @param entryHandler the entry handler
+     * @param eventType    the event type
+     * @throws Exception if handler invocation fails
+     */
     public void handlerRowData(CanalModel model, CanalEntry.RowData rowData, EntryHandler entryHandler, CanalEntry.EventType eventType) throws Exception {
         try {
-            // 设置上下文
+            // Set context
             CanalContext.setModel(model);
-            // 逐行调用Handler处理
+            // Dispatch to the row data handler
             rowDataHandler.handlerRowData(rowData, entryHandler, eventType);
         } finally {
-            // 移除上下文
+            // Remove context
             CanalContext.removeModel();
         }
     }
 
+    /**
+     * Discovers and registers all {@link CanalEventHandler}-annotated beans
+     * from the Spring application context.
+     *
+     * @param applicationContext the Spring application context
+     * @throws BeansException if context access fails
+     */
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
         log.info("{}: annotation event handler is initializing....", Thread.currentThread().getName());
-        // 获取所有的处理器
+        // Discover all handler beans
         Map<String, Object> eventHandlerMap = applicationContext.getBeansWithAnnotation(CanalEventHandler.class);
         if(CollectionUtils.isEmpty(eventHandlerMap)){
             log.info("{}: not found annotation event handler.", Thread.currentThread().getName());
             return;
         }
-        // 注解处理器对象
+        // Collect event holders from annotated methods
         List<CanalEventHolder> eventHolders = new ArrayList<>();
         for (Object target : eventHandlerMap.values()) {
-            // 获取对象声明的方法
             Method[] methods = ReflectionUtils.getDeclaredMethods(target.getClass());
             for (Method method : methods) {
                 OnCanalEvent canalEvent = AnnotatedElementUtils.findMergedAnnotation(method, OnCanalEvent.class);

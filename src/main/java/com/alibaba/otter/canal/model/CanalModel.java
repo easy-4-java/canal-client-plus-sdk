@@ -7,8 +7,17 @@ import lombok.Getter;
 import lombok.Setter;
 
 /**
- * @author yang peng
- * @date 2019/3/2711:21
+ * Data model representing a Canal change event. Contains metadata about
+ * a single database change captured by Canal, including the message id,
+ * schema, table, event type, and timestamps.
+ *
+ * <p>Instances are typically created by message handlers and placed into
+ * the {@link com.alibaba.otter.canal.context.CanalContext} thread-local
+ * for use by downstream event handler methods.</p>
+ *
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
+ * @see com.alibaba.otter.canal.context.CanalContext
  */
 @Setter
 @Getter
@@ -17,37 +26,42 @@ public class CanalModel {
 
 
     /**
-     * 消息id
+     * The Canal message id.
      */
     private long id;
 
     /**
-     * 库名
+     * The Canal destination (instance) name.
      */
     private String destination;
 
     /**
-     * 库名
+     * The database schema name.
      */
     private String schema;
     /**
-     * 表名
+     * The table name.
      */
     private String table;
     /**
-     * 事件类型
+     * The type of database change event.
      */
     private CanalEntry.EventType eventType;
     /**
-     * binlog executeTime
+     * The binlog execution timestamp in milliseconds.
      */
     private Long executeTime;
 
     /**
-     * dml build timeStamp
+     * The DML build timestamp in milliseconds.
      */
     private Long createTime;
 
+    /**
+     * Returns a string representation of this model for debugging.
+     *
+     * @return a formatted string with all field values
+     */
     @Override
     public String toString() {
         final StringBuilder sb = new StringBuilder("CanalModel{");

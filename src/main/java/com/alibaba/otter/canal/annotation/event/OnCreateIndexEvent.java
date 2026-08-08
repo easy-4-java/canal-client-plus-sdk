@@ -7,9 +7,13 @@ import org.springframework.core.annotation.AliasFor;
 import java.lang.annotation.*;
 
 /**
- * 创建索引的操作
+ * Shorthand annotation for listening to CREATE INDEX events.
+ * When placed on a method, it is invoked when a new index is created
+ * on the specified table.
  *
- * @author lujun
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
+ * @see OnCanalEvent
  */
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
@@ -17,21 +21,26 @@ import java.lang.annotation.*;
 @OnCanalEvent(eventType = CanalEntry.EventType.CINDEX)
 public @interface OnCreateIndexEvent {
     /**
-     * canal 指令
-     * default for all
+     * The Canal destination (instance) to listen on.
+     * Defaults to {@code ""} which matches all destinations.
+     *
+     * @return the Canal destination identifier
      */
     @AliasFor(annotation = OnCanalEvent.class)
     String destination() default "";
 
     /**
-     * 数据库实例
+     * The database schema to listen on. Required.
+     *
+     * @return the database schema name
      */
     @AliasFor(annotation = OnCanalEvent.class)
     String schema();
 
     /**
-     * 监听的表
-     * default for all
+     * The table name to listen on. Required.
+     *
+     * @return the table name
      */
     @AliasFor(annotation = OnCanalEvent.class)
     String table();

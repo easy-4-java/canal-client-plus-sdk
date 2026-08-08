@@ -8,7 +8,13 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 /**
- * Simple 模式 Canal 客户端
+ * Canal client for simple (direct TCP) mode. Connects to a single
+ * Canal server instance using a {@link SimpleCanalConnector}.
+ *
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
+ * @see AbstractCanalClient
+ * @see ClusterCanalClient
  */
 public class SimpleCanalClient extends AbstractCanalClient<SimpleCanalConnector> {
 
@@ -16,6 +22,12 @@ public class SimpleCanalClient extends AbstractCanalClient<SimpleCanalConnector>
         super(connectors);
     }
 
+    /**
+     * Returns the destination name from the connector's client identity.
+     *
+     * @param connector the simple Canal connector
+     * @return the destination name
+     */
     @Override
     protected String getDestination(SimpleCanalConnector connector) {
         Field clientIdentityField = ReflectionUtils.findField(SimpleCanalConnector.class, "clientIdentity");
@@ -24,8 +36,17 @@ public class SimpleCanalClient extends AbstractCanalClient<SimpleCanalConnector>
         return clientIdentity.getDestination();
     }
 
+    /**
+     * Builder for constructing {@link SimpleCanalClient} instances.
+     */
     public static final class Builder extends AbstractClientBuilder<SimpleCanalClient, SimpleCanalConnector> {
 
+        /**
+         * Builds a {@link SimpleCanalClient} with the configured properties.
+         *
+         * @param connectors the list of simple Canal connectors
+         * @return the built client
+         */
         @Override
         public SimpleCanalClient build(List<SimpleCanalConnector> connectors) {
             SimpleCanalClient canalClient = new SimpleCanalClient(connectors);

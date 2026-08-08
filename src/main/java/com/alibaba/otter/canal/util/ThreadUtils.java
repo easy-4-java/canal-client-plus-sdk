@@ -21,39 +21,107 @@ import lombok.extern.slf4j.Slf4j;
 import java.util.concurrent.*;
 import java.util.concurrent.atomic.AtomicInteger;
 
+/**
+ * Utility class for creating and managing thread pools, thread factories,
+ * and graceful shutdown of threads and executor services.
+ *
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
+ */
 @Slf4j
 public final class ThreadUtils {
 
+    /**
+     * Creates a new thread pool executor with the given parameters and a custom thread factory.
+     *
+     * @param corePoolSize    the core pool size
+     * @param maximumPoolSize the maximum pool size
+     * @param keepAliveTime   the keep-alive time for idle threads
+     * @param unit            the time unit for keep-alive
+     * @param workQueue       the blocking queue for tasks
+     * @param processName     the name prefix for threads
+     * @param isDaemon        whether threads should be daemon threads
+     * @return the new thread pool executor
+     */
     public static ExecutorService newThreadPoolExecutor(int corePoolSize, int maximumPoolSize, long keepAliveTime,
                                                         TimeUnit unit, BlockingQueue<Runnable> workQueue, String processName, boolean isDaemon) {
         return new ThreadPoolExecutor(corePoolSize, maximumPoolSize, keepAliveTime, unit, workQueue, newThreadFactory(processName, isDaemon));
     }
 
+    /**
+     * Creates a new single-thread executor with a custom thread factory.
+     *
+     * @param processName the name prefix for the thread
+     * @param isDaemon    whether the thread should be a daemon thread
+     * @return the new single-thread executor
+     */
     public static ExecutorService newSingleThreadExecutor(String processName, boolean isDaemon) {
         return Executors.newSingleThreadExecutor(newThreadFactory(processName, isDaemon));
     }
 
+    /**
+     * Creates a new single-thread scheduled executor with a custom thread factory.
+     *
+     * @param processName the name prefix for the thread
+     * @param isDaemon    whether the thread should be a daemon thread
+     * @return the new single-thread scheduled executor
+     */
     public static ScheduledExecutorService newSingleThreadScheduledExecutor(String processName, boolean isDaemon) {
         return Executors.newSingleThreadScheduledExecutor(newThreadFactory(processName, isDaemon));
     }
 
+    /**
+     * Creates a new fixed-size scheduled thread pool with a custom thread factory.
+     *
+     * @param nThreads    the number of threads in the pool
+     * @param processName the name prefix for threads
+     * @param isDaemon    whether threads should be daemon threads
+     * @return the new scheduled thread pool
+     */
     public static ScheduledExecutorService newFixedThreadScheduledPool(int nThreads, String processName,
                                                                        boolean isDaemon) {
         return Executors.newScheduledThreadPool(nThreads, newThreadFactory(processName, isDaemon));
     }
 
+    /**
+     * Creates a new thread factory with the given process name and daemon flag.
+     *
+     * @param processName the name prefix for threads
+     * @param isDaemon    whether threads should be daemon threads
+     * @return the new thread factory
+     */
     public static ThreadFactory newThreadFactory(String processName, boolean isDaemon) {
         return newGenericThreadFactory("Remoting-" + processName, isDaemon);
     }
 
+    /**
+     * Creates a new generic thread factory (non-daemon) with the given process name.
+     *
+     * @param processName the name prefix for threads
+     * @return the new thread factory
+     */
     public static ThreadFactory newGenericThreadFactory(String processName) {
         return newGenericThreadFactory(processName, false);
     }
 
+    /**
+     * Creates a new generic thread factory (non-daemon) with the given process name and thread count.
+     *
+     * @param processName the name prefix for threads
+     * @param threads     the thread count identifier
+     * @return the new thread factory
+     */
     public static ThreadFactory newGenericThreadFactory(String processName, int threads) {
         return newGenericThreadFactory(processName, threads, false);
     }
 
+    /**
+     * Creates a new generic thread factory with the given process name and daemon flag.
+     *
+     * @param processName the name prefix for threads
+     * @param isDaemon    whether threads should be daemon threads
+     * @return the new thread factory
+     */
     public static ThreadFactory newGenericThreadFactory(final String processName, final boolean isDaemon) {
         return new ThreadFactory() {
             private AtomicInteger threadIndex = new AtomicInteger(0);
@@ -67,6 +135,14 @@ public final class ThreadUtils {
         };
     }
 
+    /**
+     * Creates a new generic thread factory with the given process name, thread count, and daemon flag.
+     *
+     * @param processName the name prefix for threads
+     * @param threads     the thread count identifier
+     * @param isDaemon    whether threads should be daemon threads
+     * @return the new thread factory
+     */
     public static ThreadFactory newGenericThreadFactory(final String processName, final int threads,
                                                         final boolean isDaemon) {
         return new ThreadFactory() {
@@ -82,12 +158,13 @@ public final class ThreadUtils {
     }
 
     /**
-     * Create a new thread
+     * Creates a new thread with the given name, runnable, and daemon flag.
+     * Installs a default uncaught exception handler that logs errors.
      *
-     * @param name The name of the thread
-     * @param runnable The work for the thread to do
-     * @param daemon Should the thread block JVM stop?
-     * @return The unstarted thread
+     * @param name     the thread name
+     * @param runnable the work for the thread to do
+     * @param daemon   whether the thread should be a daemon thread
+     * @return the unstarted thread
      */
     public static Thread newThread(String name, Runnable runnable, boolean daemon) {
         Thread thread = new Thread(runnable, name);
@@ -102,19 +179,20 @@ public final class ThreadUtils {
     }
 
     /**
-     * Shutdown passed thread using isAlive and join.
+     * Gracefully shuts down the given thread by interrupting and joining it.
      *
-     * @param t Thread to stop
+     * @param t the thread to stop
      */
     public static void shutdownGracefully(final Thread t) {
         shutdownGracefully(t, 0);
     }
 
     /**
-     * Shutdown passed thread using isAlive and join.
+     * Gracefully shuts down the given thread by interrupting and joining it
+     * with the specified timeout.
      *
-     * @param millis Pass 0 if we're to wait forever.
-     * @param t Thread to stop
+     * @param t     the thread to stop
+     * @param millis the join timeout in milliseconds (0 to wait forever)
      */
     public static void shutdownGracefully(final Thread t, final long millis) {
         if (t == null) {
@@ -131,35 +209,31 @@ public final class ThreadUtils {
     }
 
     /**
-     * An implementation of the graceful stop sequence recommended by
-     * {@link ExecutorService}.
+     * Gracefully shuts down the given executor service following the
+     * recommended sequence from {@link ExecutorService}: disable new
+     * tasks, wait for termination, then force shutdown if needed.
      *
-     * @param executor executor
-     * @param timeout timeout
-     * @param timeUnit timeUnit
+     * @param executor the executor service to shut down
+     * @param timeout  the timeout value
+     * @param timeUnit the timeout time unit
      */
     public static void shutdownGracefully(ExecutorService executor, long timeout, TimeUnit timeUnit) {
-        // Disable new tasks from being submitted.
         executor.shutdown();
         try {
-            // Wait a while for existing tasks to terminate.
             if (!executor.awaitTermination(timeout, timeUnit)) {
                 executor.shutdownNow();
-                // Wait a while for tasks to respond to being cancelled.
                 if (!executor.awaitTermination(timeout, timeUnit)) {
                     log.warn(String.format("%s didn't terminate!", executor));
                 }
             }
         } catch (InterruptedException ie) {
-            // (Re-)Cancel if current thread also interrupted.
             executor.shutdownNow();
-            // Preserve interrupt status.
             Thread.currentThread().interrupt();
         }
     }
 
     /**
-     * A constructor to stop this class being constructed.
+     * Private constructor to prevent instantiation.
      */
     private ThreadUtils() {
         // Unused

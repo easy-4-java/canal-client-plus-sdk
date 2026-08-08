@@ -7,9 +7,13 @@ import org.springframework.core.annotation.AliasFor;
 import java.lang.annotation.*;
 
 /**
- * 表结构发生变化，新增时，先判断数据库实例是否存在，不存在则创建
+ * Shorthand annotation for listening to CREATE TABLE events.
+ * When placed on a method, it is invoked when a new table is created
+ * in the specified schema.
  *
- * @author lujun
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
+ * @see OnCanalEvent
  */
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
@@ -18,14 +22,18 @@ import java.lang.annotation.*;
 public @interface OnCreateTableEvent {
 
     /**
-     * canal 指令
-     * default for all
+     * The Canal destination (instance) to listen on.
+     * Defaults to {@code ""} which matches all destinations.
+     *
+     * @return the Canal destination identifier
      */
     @AliasFor(annotation = OnCanalEvent.class)
     String destination() default "";
 
     /**
-     * 数据库实例
+     * The database schema to listen on. Required.
+     *
+     * @return the database schema name
      */
     @AliasFor(annotation = OnCanalEvent.class)
     String schema();
