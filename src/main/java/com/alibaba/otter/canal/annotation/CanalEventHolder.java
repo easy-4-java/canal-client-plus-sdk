@@ -7,28 +7,36 @@ import java.lang.reflect.Method;
 import java.util.Arrays;
 
 /**
- * 监听 canal 操作
+ * Holds a reference to a Canal event listener method along with its
+ * {@link OnCanalEvent} annotation metadata. Used internally to match
+ * incoming Canal events to the appropriate handler methods at runtime.
  *
- * @author lujun
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
+ * @see OnCanalEvent
+ * @see CanalEventHandler
  */
 public class CanalEventHolder {
 
     /**
-     * 目标
+     * The target bean instance that owns the handler method.
      */
     private Object target;
     /**
-     * 监听的方法
+     * The handler method to invoke when a matching event arrives.
      */
     private Method method;
     /**
-     * 监听的事件
+     * The {@link OnCanalEvent} annotation present on the handler method.
      */
     private OnCanalEvent event;
 
     /**
-     * 构造方法，设置目标，方法以及注解类型
+     * Constructs a new holder with the given target bean, method, and event annotation.
      *
+     * @param target the bean instance containing the handler method
+     * @param method the handler method annotated with {@link OnCanalEvent}
+     * @param event  the merged {@link OnCanalEvent} annotation metadata
      */
     public CanalEventHolder(Object target, Method method, OnCanalEvent event) {
         this.target = target;
@@ -37,29 +45,41 @@ public class CanalEventHolder {
     }
 
     /**
-     * 返回目标类
+     * Returns the target bean instance.
      *
+     * @return the bean that owns the handler method
      */
     public Object getTarget() {
         return target;
     }
 
     /**
-     * 返回方法
+     * Returns the handler method.
      *
+     * @return the reflective method reference
      */
     public Method getMethod() {
         return method;
     }
 
     /**
-     * 返回注解类型
+     * Returns the {@link OnCanalEvent} annotation metadata.
      *
+     * @return the event annotation on the handler method
      */
     public OnCanalEvent getEvent() {
         return event;
     }
 
+    /**
+     * Checks whether this holder matches the given Canal event type.
+     * A match occurs when the holder's declared event types array is empty
+     * (meaning it accepts all types), when the given type is {@code null},
+     * or when the declared event types contain the given type.
+     *
+     * @param eventType the Canal event type to check
+     * @return {@code true} if this holder matches the event type
+     */
     public boolean isMatch(CanalEntry.EventType eventType) {
         return this.getEvent().eventType().length == 0 || Arrays.stream(this.getEvent().eventType()).anyMatch(ev -> ev == eventType) || eventType == null;
     }

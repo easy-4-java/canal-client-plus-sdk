@@ -14,8 +14,17 @@ import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 /**
- * Canal Client 抽象类
- * @param <C> CanalConnector 实现类
+ * Abstract base implementation of {@link CanalClient} for direct TCP
+ * Canal connectors. Manages the lifecycle of worker threads, each of
+ * which runs a continuous polling loop that fetches messages from a
+ * Canal connector and dispatches them to the configured
+ * {@link MessageHandler}.
+ *
+ * @param <C> the Canal connector type
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
+ * @see SimpleCanalClient
+ * @see ClusterCanalClient
  */
 @Slf4j
 public abstract class AbstractCanalClient<C extends CanalConnector> implements CanalClient<C> {
@@ -23,46 +32,54 @@ public abstract class AbstractCanalClient<C extends CanalConnector> implements C
     protected Thread.UncaughtExceptionHandler handler            = (t, e) -> log.error("parse events has an error",
             e);
     /**
-     * 是否运行中
+     * Whether the client is currently running.
      */
     protected volatile boolean running;
     /**
-     * Canal 连接器集合
+     * The list of Canal connectors.
      */
     private List<C> connectors;
     /**
-     * 消息过滤
+     * Message filter expression.
      */
     protected String filter = StringUtils.EMPTY;
     /**
-     * 批处理大小
+     * Batch size for fetching messages.
      */
     protected Integer batchSize = 1;
     /**
-     * 获取数据超时时间，-1代表不做timeout控制
+     * Timeout for fetching data (-1 means no timeout control).
      */
     protected Long timeout = -1L;
     /**
-     * 获取数据超时时间单位
+     * Time unit for the timeout value.
      */
     protected TimeUnit unit = TimeUnit.SECONDS;
     /**
-     * 指定订阅的事件类型，主要用于标识事务的开始，变更数据，结束
+     * The entry types to subscribe to.
      */
     protected List<CanalEntry.EntryType> subscribeTypes = Arrays.asList(CanalEntry.EntryType.ROWDATA);
     /**
-     * 消息处理器
+     * The message handler for processing Canal events.
      */
     private MessageHandler messageHandler;
     /**
-     * 工作线程
+     * Worker threads, one per connector.
      */
     private Thread[] workThreads;
 
+    /**
+     * Constructs a new client with the given connectors.
+     *
+     * @param connectors the Canal connectors
+     */
     public AbstractCanalClient(List<C> connectors) {
         this.connectors = connectors;
     }
 
+    /**
+     * Starts the client by spawning a worker thread for each connector.
+     */
     @Override
     public void start() {
         log.info("start canal client");
@@ -78,6 +95,10 @@ public abstract class AbstractCanalClient<C extends CanalConnector> implements C
         running = true;
     }
 
+    /**
+     * Stops the client by setting the running flag to false and
+     * interrupting all worker threads.
+     */
     @Override
     public void stop() {
         log.info("stop canal client");
@@ -89,8 +110,20 @@ public abstract class AbstractCanalClient<C extends CanalConnector> implements C
         }
     }
 
+    /**
+     * Returns the destination name for the given connector.
+     *
+     * @param connector the Canal connector
+     * @return the destination name
+     */
     protected abstract String getDestination(C connector);
 
+    /**
+     * Main processing loop that connects to the Canal server, subscribes,
+     * and continuously fetches and dispatches messages until stopped.
+     *
+     * @param connector the Canal connector to consume events from
+     */
     @Override
     public void process(C connector) {
         String destination = this.getDestination(connector);
@@ -115,7 +148,7 @@ public abstract class AbstractCanalClient<C extends CanalConnector> implements C
                     }
 
                     if (batchId != -1) {
-                        connector.ack(batchId); // 提交确认
+                        connector.ack(batchId);
                     }
 
                 }
@@ -126,42 +159,82 @@ public abstract class AbstractCanalClient<C extends CanalConnector> implements C
                 } catch (InterruptedException e1) {
                     // ignore
                 }
-                connector.rollback(); // 处理失败, 回滚数据
+                connector.rollback();
             } finally {
                 connector.disconnect();
             }
         }
     }
 
+    /**
+     * Calls {@link #stop()} when the Spring bean is destroyed.
+     *
+     * @throws Exception if destruction fails
+     */
     @Override
     public void destroy() throws Exception {
         stop();
     }
 
+    /**
+     * Sets the batch size for fetching messages.
+     *
+     * @param batchSize the batch size
+     */
     public void setBatchSize(Integer batchSize) {
         this.batchSize = batchSize;
     }
 
+    /**
+     * Sets the message filter expression.
+     *
+     * @param filter the filter expression
+     */
     public void setFilter(String filter) {
         this.filter = filter;
     }
 
+    /**
+     * Sets the message handler.
+     *
+     * @param messageHandler the message handler
+     */
     public void setMessageHandler(MessageHandler messageHandler) {
         this.messageHandler = messageHandler;
     }
 
+    /**
+     * Sets the timeout for fetching data.
+     *
+     * @param timeout the timeout value
+     */
     public void setTimeout(Long timeout) {
         this.timeout = timeout;
     }
 
+    /**
+     * Sets the time unit for the timeout.
+     *
+     * @param unit the time unit
+     */
     public void setUnit(TimeUnit unit) {
         this.unit = unit;
     }
 
+    /**
+     * Sets the subscribed entry types.
+     *
+     * @param subscribeTypes the entry types to subscribe to
+     */
     public void setSubscribeTypes(List<CanalEntry.EntryType> subscribeTypes) {
         this.subscribeTypes = subscribeTypes;
     }
 
+    /**
+     * Returns the message handler.
+     *
+     * @return the message handler
+     */
     public MessageHandler getMessageHandler() {
         return messageHandler;
     }

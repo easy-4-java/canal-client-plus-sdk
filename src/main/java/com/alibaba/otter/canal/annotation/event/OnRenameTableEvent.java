@@ -7,9 +7,13 @@ import org.springframework.core.annotation.AliasFor;
 import java.lang.annotation.*;
 
 /**
- * 重命名表
+ * Shorthand annotation for listening to RENAME TABLE events.
+ * When placed on a method, it is invoked when a table is renamed
+ * in the specified schema.
  *
- * @author lujun
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
+ * @see OnCanalEvent
  */
 
 @Target({ElementType.METHOD})
@@ -19,14 +23,18 @@ import java.lang.annotation.*;
 public @interface OnRenameTableEvent {
 
     /**
-     * canal 指令
-     * default for all
+     * The Canal destination (instance) to listen on.
+     * Defaults to {@code ""} which matches all destinations.
+     *
+     * @return the Canal destination identifier
      */
     @AliasFor(annotation = OnCanalEvent.class)
     String destination() default "";
 
     /**
-     * 数据库实例
+     * The database schema to listen on. Required.
+     *
+     * @return the database schema name
      */
     @AliasFor(annotation = OnCanalEvent.class)
     String schema();
