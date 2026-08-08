@@ -65,6 +65,7 @@
         <maven-jacoco-plugin.version>0.8.15</maven-jacoco-plugin.version>
     
 		<rabbit-amqp-client.version>5.32.0</rabbit-amqp-client.version>
+        <maven-central-publishing-plugin.version>0.11.0</maven-central-publishing-plugin.version>
 		<transmittable-thread-local.version>2.14.5</transmittable-thread-local.version></properties>
 
     <!-- 依赖版本统一管理（dependencyManagement） -->
