@@ -10,14 +10,43 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
+/**
+ * Implementation of {@link RowDataHandler} for flat map-based row data.
+ * Used with the FlatMessage pipeline where each row is represented as
+ * a {@code Map<String, String>}. Dispatches INSERT, UPDATE, and DELETE
+ * events to the appropriate {@link EntryHandler} methods after
+ * converting map data into model objects via the configured
+ * {@link IModelFactory}.
+ *
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
+ * @see RowDataHandler
+ * @see IModelFactory
+ */
 public class MapRowDataHandlerImpl implements RowDataHandler<List<Map<String, String>>> {
 
     private IModelFactory<Map<String,String>> modelFactory;
 
+    /**
+     * Constructs a new handler with the given model factory.
+     *
+     * @param modelFactory the factory for converting maps to model objects
+     */
     public MapRowDataHandlerImpl(IModelFactory<Map<String, String>> modelFactory) {
         this.modelFactory = modelFactory;
     }
 
+    /**
+     * Dispatches flat row data to the entry handler based on the event type.
+     * The first element of the list is the "after" data; for UPDATE events,
+     * the second element is the "before" data.
+     *
+     * @param list         the list of row data maps (index 0 = after, index 1 = before for updates)
+     * @param entryHandler the handler to delegate to
+     * @param eventType    the event type
+     * @param <R>          the entity type
+     * @throws Exception if model creation or handler invocation fails
+     */
     @Override
     public <R> void handlerRowData(List<Map<String, String>> list, EntryHandler<R> entryHandler, CanalEntry.EventType eventType) throws Exception{
         if (Objects.isNull(list) || Objects.isNull(entryHandler) || Objects.isNull(eventType)) {

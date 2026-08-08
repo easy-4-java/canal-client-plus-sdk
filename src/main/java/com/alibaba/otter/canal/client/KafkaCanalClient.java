@@ -8,7 +8,12 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 /**
- * Kafka 模式 Canal 客户端
+ * Canal client for Kafka mode. Consumes Canal events from a Kafka topic
+ * using a {@link KafkaCanalConnector}.
+ *
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
+ * @see AbstractMQCanalClient
  */
 @Slf4j
 public class KafkaCanalClient extends AbstractMQCanalClient<KafkaCanalConnector> {
@@ -17,6 +22,12 @@ public class KafkaCanalClient extends AbstractMQCanalClient<KafkaCanalConnector>
         super(connectors);
     }
 
+    /**
+     * Returns the destination (topic) name from the Kafka connector's field.
+     *
+     * @param connector the Kafka Canal connector
+     * @return the topic name
+     */
     @Override
     protected String getDestination(KafkaCanalConnector connector) {
         Field topicField =  ReflectionUtils.findField(KafkaCanalConnector.class, "topic");
@@ -24,8 +35,17 @@ public class KafkaCanalClient extends AbstractMQCanalClient<KafkaCanalConnector>
         return (String) ReflectionUtils.getField(topicField, connector);
     }
 
+    /**
+     * Builder for constructing {@link KafkaCanalClient} instances.
+     */
     public static final class Builder extends AbstractClientBuilder<KafkaCanalClient, KafkaCanalConnector> {
 
+        /**
+         * Builds a {@link KafkaCanalClient} with the configured properties.
+         *
+         * @param connectors the list of Kafka Canal connectors
+         * @return the built client
+         */
         @Override
         public KafkaCanalClient build(List<KafkaCanalConnector> connectors) {
             KafkaCanalClient canalClient = new KafkaCanalClient(connectors);

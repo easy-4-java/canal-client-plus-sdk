@@ -7,13 +7,38 @@ import org.springframework.util.CollectionUtils;
 
 import java.util.List;
 
+/**
+ * Abstract base implementation of {@link CanalClient} for message-queue-based
+ * Canal connectors (Kafka, RocketMQ, RabbitMQ, PulsarMQ). Processes
+ * {@link FlatMessage} objects instead of protobuf-based {@code Message}
+ * objects, making it suitable for MQ pipelines that deliver JSON payloads.
+ *
+ * @param <C> the MQ Canal connector type
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
+ * @see KafkaCanalClient
+ * @see RocketMQCanalClient
+ * @see RabbitMQCanalClient
+ * @see PulsarMQCanalClient
+ */
 @Slf4j
 public abstract class AbstractMQCanalClient<C extends CanalMQConnector> extends AbstractCanalClient<C> {
 
+    /**
+     * Constructs a new MQ client with the given connectors.
+     *
+     * @param connectors the MQ Canal connectors
+     */
     public AbstractMQCanalClient(List<C> connectors) {
         super(connectors);
     }
 
+    /**
+     * Main processing loop that connects to the MQ source, subscribes,
+     * and continuously fetches and dispatches flat messages until stopped.
+     *
+     * @param connector the MQ Canal connector to consume events from
+     */
     @Override
     public void process(C connector) {
         String destination = this.getDestination(connector);
@@ -33,11 +58,11 @@ public abstract class AbstractMQCanalClient<C extends CanalMQConnector> extends 
                         }
                         connector.ack();
                     } catch (Exception e) {
-                        log.error("canal 消费异常", e);
+                        log.error("canal consume exception", e);
                     }
                 }
             } catch (Exception e) {
-                log.error("canal 连接异常", e);
+                log.error("canal connection exception", e);
             }
         }
         connector.unsubscribe();

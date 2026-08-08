@@ -7,9 +7,13 @@ import org.springframework.core.annotation.AliasFor;
 import java.lang.annotation.*;
 
 /**
- * 新增操作监听器 发生insert时 会触发
+ * Shorthand annotation for listening to INSERT events.
+ * When placed on a method, it is invoked when a new row is inserted
+ * into the specified table.
  *
- * @author lujun
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
+ * @see OnCanalEvent
  */
 
 @Target({ElementType.METHOD})
@@ -19,24 +23,26 @@ import java.lang.annotation.*;
 public @interface OnInsertEvent {
 
     /**
-     * canal 指令
-     * default for all
+     * The Canal destination (instance) to listen on.
+     * Defaults to {@code ""} which matches all destinations.
      *
+     * @return the Canal destination identifier
      */
     @AliasFor(annotation = OnCanalEvent.class)
     String destination() default "";
 
     /**
-     * 数据库实例
+     * The database schema to listen on. Required.
      *
+     * @return the database schema name
      */
     @AliasFor(annotation = OnCanalEvent.class)
     String schema();
 
     /**
-     * 监听的表
-     * default for all
+     * The table name to listen on. Required.
      *
+     * @return the table name
      */
     @AliasFor(annotation = OnCanalEvent.class)
     String table();
