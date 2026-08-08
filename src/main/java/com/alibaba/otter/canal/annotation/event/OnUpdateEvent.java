@@ -7,10 +7,13 @@ import org.springframework.core.annotation.AliasFor;
 import java.lang.annotation.*;
 
 /**
- * 更新操作监听器
- * 发生update时会触发
+ * Shorthand annotation for listening to UPDATE events.
+ * When placed on a method, it is invoked when an existing row is updated
+ * in the specified table.
  *
- * @author lujun
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
+ * @see OnCanalEvent
  */
 
 @Target({ElementType.METHOD})
@@ -20,27 +23,26 @@ import java.lang.annotation.*;
 public @interface OnUpdateEvent {
 
     /**
-     * canal 指令
-     * default for all
+     * The Canal destination (instance) to listen on.
+     * Defaults to {@code ""} which matches all destinations.
      *
-     * @return canal destination
+     * @return the Canal destination identifier
      */
     @AliasFor(annotation = OnCanalEvent.class)
     String destination() default "";
 
     /**
-     * 数据库实例
+     * The database schema to listen on. Required.
      *
-     * @return canal destination
+     * @return the database schema name
      */
     @AliasFor(annotation = OnCanalEvent.class)
     String schema();
 
     /**
-     * 监听的表
-     * default for all
+     * The table name to listen on. Required.
      *
-     * @return canal destination
+     * @return the table name
      */
     @AliasFor(annotation = OnCanalEvent.class)
     String table();

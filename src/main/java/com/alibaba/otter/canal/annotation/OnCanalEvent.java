@@ -5,9 +5,18 @@ import com.alibaba.otter.canal.protocol.CanalEntry;
 import java.lang.annotation.*;
 
 /**
- * 监听数据库的操作
+ * Marks a method as a Canal event listener. Methods annotated with
+ * {@code @OnCanalEvent} are invoked when a matching database change event
+ * is received from the Canal server.
  *
- * @author lujun
+ * <p>The annotation attributes specify the destination, schema, table,
+ * and event types to filter on. Only events matching all specified
+ * criteria will trigger the annotated method.</p>
+ *
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
+ * @see CanalEventHandler
+ * @see CanalTable
  */
 
 @Target({ElementType.TYPE})
@@ -16,30 +25,34 @@ import java.lang.annotation.*;
 public @interface OnCanalEvent {
 
     /**
-     * canal 指令
-     * default for all
+     * The Canal destination (instance) to listen on.
+     * Defaults to {@code ""} which matches all destinations.
      *
+     * @return the Canal destination identifier
      */
     String destination() default "";
 
     /**
-     * 数据库实例
+     * The database schema to listen on.
+     * Defaults to {@code "*"} which matches all schemas.
      *
+     * @return the database schema name
      */
     String schema() default "*";
 
     /**
-     * 监听的表
-     * default for all
+     * The table name to listen on.
+     * Defaults to {@code "*"} which matches all tables.
      *
+     * @return the table name
      */
     String table() default "*";
 
     /**
-     * 监听操作的类型
-     * <p>
-     * default for all
+     * The Canal event types to listen for (e.g., INSERT, UPDATE, DELETE).
+     * This attribute is required and must contain at least one event type.
      *
+     * @return the array of Canal event types
      */
     CanalEntry.EventType[] eventType();
 

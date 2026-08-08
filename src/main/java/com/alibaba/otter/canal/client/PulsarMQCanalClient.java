@@ -8,7 +8,12 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 /**
- * PulsarMQ 模式 Canal 客户端
+ * Canal client for PulsarMQ mode. Consumes Canal events from an Apache
+ * Pulsar topic using a {@link PulsarMQCanalConnector}.
+ *
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
+ * @see AbstractMQCanalClient
  */
 @Slf4j
 public class PulsarMQCanalClient extends AbstractMQCanalClient<PulsarMQCanalConnector> {
@@ -17,6 +22,12 @@ public class PulsarMQCanalClient extends AbstractMQCanalClient<PulsarMQCanalConn
         super(connectors);
     }
 
+    /**
+     * Returns the destination (topic) name from the Pulsar connector's field.
+     *
+     * @param connector the PulsarMQ Canal connector
+     * @return the topic name
+     */
     @Override
     protected String getDestination(PulsarMQCanalConnector connector) {
         Field topicField =  ReflectionUtils.findField(PulsarMQCanalConnector.class, "topic");
@@ -24,8 +35,17 @@ public class PulsarMQCanalClient extends AbstractMQCanalClient<PulsarMQCanalConn
         return (String) ReflectionUtils.getField(topicField, connector);
     }
 
+    /**
+     * Builder for constructing {@link PulsarMQCanalClient} instances.
+     */
     public static final class Builder extends AbstractClientBuilder<PulsarMQCanalClient, PulsarMQCanalConnector> {
 
+        /**
+         * Builds a {@link PulsarMQCanalClient} with the configured properties.
+         *
+         * @param connectors the list of PulsarMQ Canal connectors
+         * @return the built client
+         */
         @Override
         public PulsarMQCanalClient build(List<PulsarMQCanalConnector> connectors) {
             PulsarMQCanalClient canalClient = new PulsarMQCanalClient(connectors);

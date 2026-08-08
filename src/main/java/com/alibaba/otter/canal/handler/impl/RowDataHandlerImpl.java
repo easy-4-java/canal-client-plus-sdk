@@ -12,19 +12,43 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * @author yang peng
- * @date 2019/3/2917:21
+ * Implementation of {@link RowDataHandler} for protobuf-based
+ * {@link CanalEntry.RowData}. Dispatches INSERT, UPDATE, and DELETE
+ * events to the appropriate {@link EntryHandler} methods after
+ * converting column data into model objects via the configured
+ * {@link IModelFactory}.
+ *
+ * @author [@Loong Wan](https://github.com/loong10k)
+ * @since 3.0.0
+ * @see RowDataHandler
+ * @see IModelFactory
  */
 public class RowDataHandlerImpl implements RowDataHandler<CanalEntry.RowData> {
 
 
     private IModelFactory<List<CanalEntry.Column>> modelFactory;
 
-
+    /**
+     * Constructs a new handler with the given model factory.
+     *
+     * @param modelFactory the factory for converting column lists to model objects
+     */
     public RowDataHandlerImpl(IModelFactory modelFactory) {
         this.modelFactory = modelFactory;
     }
 
+    /**
+     * Dispatches row data to the entry handler based on the event type.
+     * For INSERT events, the after-columns are used. For DELETE events,
+     * the before-columns are used. For UPDATE events, both before and
+     * after columns are converted and passed to the update method.
+     *
+     * @param rowData      the Canal row data
+     * @param entryHandler the handler to delegate to
+     * @param eventType    the event type
+     * @param <R>          the entity type
+     * @throws Exception if model creation or handler invocation fails
+     */
     @Override
     public <R> void handlerRowData(CanalEntry.RowData rowData, EntryHandler<R> entryHandler, CanalEntry.EventType eventType) throws Exception {
         if (Objects.isNull(rowData) || Objects.isNull(entryHandler) || Objects.isNull(eventType)) {
