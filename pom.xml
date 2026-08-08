@@ -7,7 +7,7 @@
     <url>https://github.com/easy-4-java/${project.artifactId}</url>
     <description>Canal Client Plus SDK - Handlers, Models, Annotations (Spring Boot Independent)</description>
 
-    <!-- 开源协议采用 Apache 2.0 协议 -->
+    
     <licenses>
         <license>
             <name>The Apache Software License, Version 2.0</name>
@@ -15,7 +15,7 @@
         </license>
     </licenses>
 
-    <!-- 源码仓库（SCM）信息 -->
+    
     <scm>
         <connection>scm:git:https://github.com/easy-4-java/${project.artifactId}.git</connection>
         <developerConnection>scm:git:https://github.com/easy-4-java/${project.artifactId}.git</developerConnection>
@@ -23,7 +23,7 @@
         <tag>${project.artifactId}</tag>
     </scm>
 
-    <!-- 开发者信息 -->
+    
     <developers>
         <developer>
             <name>Loong Wan</name>
@@ -38,17 +38,17 @@
     <version>3.0.x.20260630-SNAPSHOT</version>
     <packaging>jar</packaging>
 
-    <!-- 版本属性定义：Java 版本、依赖版本与 Maven 插件版本统一管理 -->
+    
     <properties>
                 <junit-jupiter.version>6.1.0</junit-jupiter.version>
 <maven-central-publishing-plugin.version>0.11.0</maven-central-publishing-plugin.version>
-        <!-- Maven Plugin versions -->
+        
         <maven-javadoc-plugin.version>3.11.2</maven-javadoc-plugin.version>
         <maven-source-plugin.version>3.4.0</maven-source-plugin.version>
         <maven-gpg-plugin.version>3.2.8</maven-gpg-plugin.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <java.version>21</java.version>
-        <!-- Dependency versions -->
+        
         <lombok.version>1.18.46</lombok.version>
         <slf4j.version>2.0.18</slf4j.version>
         <commons-beanutils.version>1.11.0</commons-beanutils.version>
@@ -65,107 +65,107 @@
         <maven-jacoco-plugin.version>0.8.15</maven-jacoco-plugin.version>
     
 		<rabbit-amqp-client.version>5.32.0</rabbit-amqp-client.version>
-		<transmittable-thread-local.version>2.14.5</transmittable-thread-local.version></properties>
+		<transmittable-thread-local.version>2.14.5</transmittable-thread-local.version><maven.compiler.release>${java.version}</maven.compiler.release></properties>
 
-    <!-- 依赖版本统一管理（dependencyManagement） -->
+    
     <dependencyManagement>
         <dependencies>
-            <!-- For Lombok -->
+            
             <dependency>
                 <groupId>org.projectlombok</groupId>
                 <artifactId>lombok</artifactId>
                 <version>${lombok.version}</version>
                 <scope>provided</scope>
             </dependency>
-            <!-- For Slf4j -->
+            
             <dependency>
                 <groupId>org.slf4j</groupId>
                 <artifactId>slf4j-api</artifactId>
                 <version>${slf4j.version}</version>
             </dependency>
-            <!-- https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils -->
+            
             <dependency>
                 <groupId>commons-beanutils</groupId>
                 <artifactId>commons-beanutils</artifactId>
                 <version>${commons-beanutils.version}</version>
             </dependency>
-            <!-- For Commons Collections -->
+            
             <dependency>
                 <groupId>commons-collections</groupId>
                 <artifactId>commons-collections</artifactId>
                 <version>${commons-collections.version}</version>
             </dependency>
-            <!-- For Commons Lang -->
+            
             <dependency>
                 <groupId>commons-lang</groupId>
                 <artifactId>commons-lang</artifactId>
                 <version>${commons-lang.version}</version>
             </dependency>
-            <!-- For Commons Lang3 -->
+            
             <dependency>
                 <groupId>org.apache.commons</groupId>
                 <artifactId>commons-lang3</artifactId>
                 <version>${commons-lang3.version}</version>
             </dependency>
-            <!-- For Canal -->
+            
             <dependency>
                 <groupId>com.alibaba.otter</groupId>
                 <artifactId>canal.client</artifactId>
                 <version>${canal.version}</version>
             </dependency>
-            <!-- For Canal -->
+            
             <dependency>
                 <groupId>com.alibaba.otter</groupId>
                 <artifactId>canal.protocol</artifactId>
                 <version>${canal.version}</version>
             </dependency>
-            <!-- For RabbitMQ -->
+            
             <dependency>
                 <groupId>com.rabbitmq</groupId>
                 <artifactId>amqp-client</artifactId>
                 <version>${rabbit-amqp-client.version}</version>
                 <scope>provided</scope>
             </dependency>
-            <!-- For Kafka -->
+            
             <dependency>
                 <groupId>org.apache.kafka</groupId>
                 <artifactId>kafka-clients</artifactId>
                 <version>${kafka-clients.version}</version>
                 <scope>provided</scope>
             </dependency>
-            <!-- For Pulsar -->
+            
             <dependency>
                 <groupId>org.apache.pulsar</groupId>
                 <artifactId>pulsar-client</artifactId>
                 <version>${pulsar-client.version}</version>
                 <scope>provided</scope>
             </dependency>
-            <!-- For RocketMQ -->
+            
             <dependency>
                 <groupId>org.apache.rocketmq</groupId>
                 <artifactId>rocketmq-client</artifactId>
                 <version>${rocketmq-client.version}</version>
                 <scope>provided</scope>
             </dependency>
-            <!-- For MyBatis Plus -->
+            
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-core</artifactId>
                 <version>${mybatis-plus.version}</version>
             </dependency>
-            <!-- For MyBatis Plus -->
+            
             <dependency>
                 <groupId>com.baomidou</groupId>
                 <artifactId>mybatis-plus-annotation</artifactId>
                 <version>${mybatis-plus.version}</version>
             </dependency>
-            <!-- For Spring Framework -->
+            
             <dependency>
                 <groupId>org.springframework</groupId>
                 <artifactId>spring-context</artifactId>
                 <version>${spring-framework.version}</version>
             </dependency>
-            <!-- For Transmittable Thread Local -->
+            
             <dependency>
                 <groupId>com.alibaba</groupId>
                 <artifactId>transmittable-thread-local</artifactId>
@@ -174,120 +174,119 @@
         </dependencies>
     </dependencyManagement>
 
-    <!-- 项目依赖（dependencies） -->
+    
     <dependencies>
-        <!-- For Lombok -->
+        
         <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <scope>provided</scope>
         </dependency>
-        <!-- For Slf4j -->
+        
         <dependency>
             <groupId>org.slf4j</groupId>
             <artifactId>slf4j-api</artifactId>
         </dependency>
-        <!-- https://mvnrepository.com/artifact/commons-beanutils/commons-beanutils -->
+        
         <dependency>
             <groupId>commons-beanutils</groupId>
             <artifactId>commons-beanutils</artifactId>
         </dependency>
-        <!-- For Commons Collections -->
+        
         <dependency>
             <groupId>commons-collections</groupId>
             <artifactId>commons-collections</artifactId>
         </dependency>
-        <!-- For Commons Lang -->
+        
         <dependency>
             <groupId>commons-lang</groupId>
             <artifactId>commons-lang</artifactId>
         </dependency>
-        <!-- For Commons Lang3 -->
+        
         <dependency>
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-lang3</artifactId>
         </dependency>
-        <!-- For Canal -->
+        
         <dependency>
             <groupId>com.alibaba.otter</groupId>
             <artifactId>canal.client</artifactId>
         </dependency>
-        <!-- For Canal -->
+        
         <dependency>
             <groupId>com.alibaba.otter</groupId>
             <artifactId>canal.protocol</artifactId>
         </dependency>
-        <!-- For RabbitMQ -->
+        
         <dependency>
             <groupId>com.rabbitmq</groupId>
             <artifactId>amqp-client</artifactId>
             <scope>provided</scope>
         </dependency>
-        <!-- For Kafka -->
+        
         <dependency>
             <groupId>org.apache.kafka</groupId>
             <artifactId>kafka-clients</artifactId>
             <scope>provided</scope>
         </dependency>
-        <!-- For Pulsar -->
+        
         <dependency>
             <groupId>org.apache.pulsar</groupId>
             <artifactId>pulsar-client</artifactId>
             <scope>provided</scope>
         </dependency>
-        <!-- For RocketMQ -->
+        
         <dependency>
             <groupId>org.apache.rocketmq</groupId>
             <artifactId>rocketmq-client</artifactId>
             <scope>provided</scope>
         </dependency>
-        <!-- For MyBatis Plus -->
+        
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-core</artifactId>
         </dependency>
-        <!-- For MyBatis Plus -->
+        
         <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatis-plus-annotation</artifactId>
         </dependency>
-        <!-- For Spring Framework -->
+        
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
         </dependency>
-        <!-- For Transmittable Thread Local -->
+        
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>transmittable-thread-local</artifactId>
         </dependency>
     </dependencies>
 
-    <!-- 构建配置（Build） -->
+    
     <build>
         <pluginManagement>
             <plugins>
 
-                <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
+                
                 <plugin>
-                    <!-- 编译插件：编译主代码至主输出目录 -->
+                    
                     <groupId>org.apache.maven.plugins</groupId>
                     <artifactId>maven-compiler-plugin</artifactId>
                     <version>${maven-compiler-plugin.version}</version>
                     <configuration>
-                        <!-- 源代码编译版本 -->
-                        <source>${java.version}</source>
-                        <!-- 目标平台编译版本 -->
-                        <target>${java.version}</target>
+                        <release>${java.version}</release>
+                        
+                        
                     </configuration>
                 </plugin>
             </plugins>
         </pluginManagement>
         <plugins>
 
-            <!-- https://mvnrepository.com/artifact/org.jacoco/jacoco-maven-plugin -->
+            
             <plugin>
-                <!-- 覆盖率插件：生成覆盖率报告并校验测试覆盖率（目标 90%） -->
+                
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
                 <version>${maven-jacoco-plugin.version}</version>
@@ -330,20 +329,19 @@
                 </executions>
             </plugin>
 
-            <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-compiler-plugin -->
+            
             <plugin>
-                <!-- 编译插件：编译主代码至主输出目录 -->
+                
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>${maven-compiler-plugin.version}</version>
                 <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                    <!-- 保留方法参数名，支持 Spring MVC 按参数名绑定 -->
+                    <release>${java.version}</release>
+                        
                     <parameters>true</parameters>
-                    <!-- 字符集编码 -->
+                    
                     <encoding>${project.build.sourceEncoding}</encoding>
-                    <!-- 编译最大内存 -->
+                    
                     <maxmem>512M</maxmem>
                     <annotationProcessorPaths>
                         <path>
@@ -355,9 +353,9 @@
                 </configuration>
             </plugin>
 
-            <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-javadoc-plugin -->
+            
             <plugin>
-                <!-- 文档插件：发布时自动生成 Javadoc 并发布 -->
+                
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>${maven-javadoc-plugin.version}</version>
@@ -375,9 +373,9 @@
                 </executions>
             </plugin>
 
-            <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-source-plugin -->
+            
             <plugin>
-                <!-- 源码插件：发布时自动将源码同时发布 -->
+                
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-source-plugin</artifactId>
                 <version>${maven-source-plugin.version}</version>
@@ -393,7 +391,7 @@
         </plugins>
     </build>
 
-    <!-- 制品发布仓库配置（distributionManagement） -->
+    
     <distributionManagement>
         <repository>
             <id>2624322-release-6F6h6R</id>
@@ -405,18 +403,18 @@
         </snapshotRepository>
     </distributionManagement>
 
-    <!-- 构建 Profile 配置 -->
+    
     <profiles>
-        <!-- 发布到 Maven Central Portal：mvn -Pcentral deploy（GPG 签名 + 源码 + Javadoc + Central 发布插件） -->
+        
 
         <profile>
             <id>central</id>
             <build>
                 <plugins>
 
-                    <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-gpg-plugin -->
+                    
                     <plugin>
-                        <!-- 签名插件：对制品进行 PGP 签名 -->
+                        
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-gpg-plugin</artifactId>
                         <version>${maven-gpg-plugin.version}</version>
@@ -431,9 +429,9 @@
                         </executions>
                     </plugin>
 
-                    <!-- https://mvnrepository.com/artifact/org.sonatype.central/central-publishing-maven-plugin -->
+                    
                     <plugin>
-                        <!-- 发布插件：将制品发布到 Maven Central Portal -->
+                        
                         <groupId>org.sonatype.central</groupId>
                         <artifactId>central-publishing-maven-plugin</artifactId>
                         <version>${maven-central-publishing-plugin.version}</version>
