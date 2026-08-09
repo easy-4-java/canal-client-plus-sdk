@@ -7,6 +7,8 @@ import com.alibaba.otter.canal.protocol.Message;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -24,16 +26,16 @@ class SyncMessageHandlerImplTest {
     void shouldCreateWithDefaultEntryTypes() {
         TestEntryHandler entryHandler = new TestEntryHandler();
         SyncMessageHandlerImpl handler = new SyncMessageHandlerImpl(
-                List.of(entryHandler), new NoOpRowDataHandler());
+                Arrays.asList(entryHandler), new NoOpRowDataHandler());
         assertNotNull(handler);
     }
 
     @Test
     void shouldCreateWithCustomEntryTypes() {
         TestEntryHandler entryHandler = new TestEntryHandler();
-        List<CanalEntry.EntryType> types = List.of(CanalEntry.EntryType.ROWDATA);
+        List<CanalEntry.EntryType> types = Collections.unmodifiableList(Arrays.asList(CanalEntry.EntryType.ROWDATA));
         SyncMessageHandlerImpl handler = new SyncMessageHandlerImpl(
-                types, List.of(entryHandler), new NoOpRowDataHandler());
+                types, Arrays.asList(entryHandler), new NoOpRowDataHandler());
         assertNotNull(handler);
     }
 
@@ -41,7 +43,7 @@ class SyncMessageHandlerImplTest {
     void shouldHandleEmptyMessage() {
         TestEntryHandler entryHandler = new TestEntryHandler();
         SyncMessageHandlerImpl handler = new SyncMessageHandlerImpl(
-                List.of(entryHandler), new NoOpRowDataHandler());
+                Arrays.asList(entryHandler), new NoOpRowDataHandler());
         Message message = new Message(1L, new ArrayList<>());
 
         assertDoesNotThrow(() -> handler.handleMessage("test-dest", message));

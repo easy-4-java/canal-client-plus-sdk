@@ -41,6 +41,7 @@
     <!-- 版本属性定义：Java 版本、依赖版本与 Maven 插件版本统一管理 -->
     <properties>
                 <junit-jupiter.version>5.11.4</junit-jupiter.version>
+                <mockito.version>5.14.2</mockito.version>
 <central-maven-publishing-plugin.version>0.11.0</central-maven-publishing-plugin.version>
         <!-- Maven Plugin versions -->
         <maven-javadoc-plugin.version>3.11.2</maven-javadoc-plugin.version>
@@ -179,6 +180,20 @@
                 <version>${junit-jupiter.version}</version>
                 <scope>test</scope>
             </dependency>
+            <!-- For Mockito -->
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-core</artifactId>
+                <version>${mockito.version}</version>
+                <scope>test</scope>
+            </dependency>
+            <!-- For Mockito JUnit Jupiter -->
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-junit-jupiter</artifactId>
+                <version>${mockito.version}</version>
+                <scope>test</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
@@ -273,6 +288,18 @@
         <dependency>
             <groupId>org.junit.jupiter</groupId>
             <artifactId>junit-jupiter</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- For Mockito -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <!-- For Mockito JUnit Jupiter -->
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

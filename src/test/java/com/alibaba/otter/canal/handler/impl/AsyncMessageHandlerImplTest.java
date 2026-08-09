@@ -8,6 +8,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -28,7 +30,7 @@ class AsyncMessageHandlerImplTest {
 
         TestEntryHandler entryHandler = new TestEntryHandler();
         AsyncMessageHandlerImpl handler = new AsyncMessageHandlerImpl(
-                List.of(entryHandler), new NoOpRowDataHandler(), executor);
+                Arrays.asList(entryHandler), new NoOpRowDataHandler(), executor);
         assertNotNull(handler);
         executor.shutdown();
     }
@@ -39,9 +41,9 @@ class AsyncMessageHandlerImplTest {
         executor.initialize();
 
         TestEntryHandler entryHandler = new TestEntryHandler();
-        List<CanalEntry.EntryType> types = List.of(CanalEntry.EntryType.ROWDATA);
+        List<CanalEntry.EntryType> types = Collections.unmodifiableList(Arrays.asList(CanalEntry.EntryType.ROWDATA));
         AsyncMessageHandlerImpl handler = new AsyncMessageHandlerImpl(
-                types, List.of(entryHandler), new NoOpRowDataHandler(), executor);
+                types, Arrays.asList(entryHandler), new NoOpRowDataHandler(), executor);
         assertNotNull(handler);
         executor.shutdown();
     }
@@ -54,7 +56,7 @@ class AsyncMessageHandlerImplTest {
 
         TestEntryHandler entryHandler = new TestEntryHandler();
         AsyncMessageHandlerImpl handler = new AsyncMessageHandlerImpl(
-                List.of(entryHandler), new NoOpRowDataHandler(), executor);
+                Arrays.asList(entryHandler), new NoOpRowDataHandler(), executor);
 
         Message message = new Message(1L, new ArrayList<>());
 

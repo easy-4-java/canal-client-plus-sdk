@@ -75,7 +75,7 @@ class HandlerUtilTest {
     @Test
     void shouldBuildTableHandlerMapFromAnnotatedHandler() {
         AnnotatedEntryHandler handler = new AnnotatedEntryHandler();
-        List<EntryHandler> handlers = List.of(handler);
+        List<EntryHandler> handlers = Arrays.asList(handler);
 
         Map<String, EntryHandler> map = HandlerUtil.getTableHandlerMap(handlers);
         assertFalse(map.isEmpty());
@@ -85,7 +85,7 @@ class HandlerUtilTest {
     @Test
     void shouldNotIncludeUnannotatedHandlerInMap() {
         TestEntryHandler handler = new TestEntryHandler();
-        List<EntryHandler> handlers = List.of(handler);
+        List<EntryHandler> handlers = Arrays.asList(handler);
 
         Map<String, EntryHandler> map = HandlerUtil.getTableHandlerMap(handlers);
         // TestEntryHandler has no @CanalTable and no generic type info (String has no table info)
@@ -113,7 +113,7 @@ class HandlerUtilTest {
     void shouldBuildEventHolderMap() throws Exception {
         CanalEventHolder holder = createEventHolder("dummyInsertMethod");
 
-        Map<String, List<CanalEventHolder>> map = HandlerUtil.getEventHolderMap(List.of(holder));
+        Map<String, List<CanalEventHolder>> map = HandlerUtil.getEventHolderMap(Arrays.asList(holder));
         assertFalse(map.isEmpty());
     }
 
@@ -174,7 +174,7 @@ class HandlerUtilTest {
         // so it won't match. An annotated handler with matching table combination would.
         // When the list has no matching handler, null is returned.
         TestEntryHandler handler = new TestEntryHandler();
-        List<EntryHandler> handlers = List.of(handler);
+        List<EntryHandler> handlers = Arrays.asList(handler);
 
         EntryHandler result = HandlerUtil.getEntryHandler(handlers, "any_schema", "any_table");
         assertNull(result);
@@ -183,7 +183,7 @@ class HandlerUtilTest {
     @Test
     void shouldReturnNullWhenNoMatchingHandler() {
         AnnotatedEntryHandler specificHandler = new AnnotatedEntryHandler();
-        List<EntryHandler> handlers = List.of(specificHandler);
+        List<EntryHandler> handlers = Arrays.asList(specificHandler);
 
         EntryHandler result = HandlerUtil.getEntryHandler(handlers, "other_schema", "other_table");
         assertNull(result);
@@ -221,7 +221,7 @@ class HandlerUtilTest {
     void shouldFilterByMatchingDestination() throws Exception {
         CanalEventHolder holder = createEventHolder("destFilteredMethod");
 
-        Map<String, List<CanalEventHolder>> map = HandlerUtil.getEventHolderMap(List.of(holder));
+        Map<String, List<CanalEventHolder>> map = HandlerUtil.getEventHolderMap(Arrays.asList(holder));
         // The key includes event type, so we use the right composite key
         String key = HandlerUtil.getCombinationValue("*", "test", "users", CanalEntry.EventType.INSERT);
         assertTrue(map.containsKey(key));

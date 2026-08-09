@@ -32,22 +32,22 @@ class MapRowDataHandlerImplTest {
     @Test
     void shouldReturnWhenEntryHandlerIsNull() throws Exception {
         MapRowDataHandlerImpl handler = new MapRowDataHandlerImpl(modelFactory);
-        List<Map<String, String>> list = List.of(Map.of("id", "1"));
+        List<Map<String, String>> list = Arrays.asList(Collections.singletonMap("id", "1"));
         assertDoesNotThrow(() -> handler.handlerRowData(list, null, CanalEntry.EventType.INSERT));
     }
 
     @Test
     void shouldReturnWhenEventTypeIsNull() throws Exception {
         MapRowDataHandlerImpl handler = new MapRowDataHandlerImpl(modelFactory);
-        List<Map<String, String>> list = List.of(Map.of("id", "1"));
+        List<Map<String, String>> list = Arrays.asList(Collections.singletonMap("id", "1"));
         assertDoesNotThrow(() -> handler.handlerRowData(list, entryHandler, null));
     }
 
     @Test
     void shouldHandleInsertEvent() throws Exception {
         MapRowDataHandlerImpl handler = new MapRowDataHandlerImpl(modelFactory);
-        Map<String, String> data = Map.of("id", "1", "name", "test");
-        List<Map<String, String>> list = List.of(data);
+        Map<String, String> data = new HashMap<String, String>() {{ put("id", "1"); put("name", "test"); }};
+        List<Map<String, String>> list = Arrays.asList(data);
 
         when(modelFactory.newInstance(any(), any(Map.class))).thenReturn("model");
 
@@ -59,8 +59,8 @@ class MapRowDataHandlerImplTest {
     @Test
     void shouldHandleDeleteEvent() throws Exception {
         MapRowDataHandlerImpl handler = new MapRowDataHandlerImpl(modelFactory);
-        Map<String, String> data = Map.of("id", "1");
-        List<Map<String, String>> list = List.of(data);
+        Map<String, String> data = Collections.singletonMap("id", "1");
+        List<Map<String, String>> list = Arrays.asList(data);
 
         when(modelFactory.newInstance(any(), any(Map.class))).thenReturn("model");
 
@@ -72,10 +72,10 @@ class MapRowDataHandlerImplTest {
     @Test
     void shouldHandleUpdateEvent() throws Exception {
         MapRowDataHandlerImpl handler = new MapRowDataHandlerImpl(modelFactory);
-        Map<String, String> afterData = Map.of("id", "2");
-        Map<String, String> beforeData = Map.of("id", "1");
+        Map<String, String> afterData = Collections.singletonMap("id", "2");
+        Map<String, String> beforeData = Collections.singletonMap("id", "1");
         // Code: list.get(0) = after (new data), list.get(1) = before (old data)
-        List<Map<String, String>> list = List.of(afterData, beforeData);
+        List<Map<String, String>> list = Arrays.asList(afterData, beforeData);
 
         // Code calls: first newInstance(handler, list.get(1)) for before,
         // then newInstance(handler, list.get(0)) for after
@@ -91,7 +91,7 @@ class MapRowDataHandlerImplTest {
     @Test
     void shouldDoNothingForUnhandledEventType() throws Exception {
         MapRowDataHandlerImpl handler = new MapRowDataHandlerImpl(modelFactory);
-        List<Map<String, String>> list = List.of(Map.of("id", "1"));
+        List<Map<String, String>> list = Arrays.asList(Collections.singletonMap("id", "1"));
 
         handler.handlerRowData(list, entryHandler, CanalEntry.EventType.QUERY);
 

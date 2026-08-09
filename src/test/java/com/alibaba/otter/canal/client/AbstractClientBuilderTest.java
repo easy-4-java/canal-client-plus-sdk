@@ -6,6 +6,7 @@ import com.alibaba.otter.canal.protocol.Message;
 import com.alibaba.otter.canal.protocol.exception.CanalClientException;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
@@ -105,7 +106,7 @@ class AbstractClientBuilderTest {
     @Test
     void shouldSetSubscribeTypes() {
         TestClientBuilder builder = new TestClientBuilder();
-        builder.setSubscribeTypes(List.of(CanalEntry.EntryType.ROWDATA));
+        builder.setSubscribeTypes(Arrays.asList(CanalEntry.EntryType.ROWDATA));
         TestClient client = builder.build(Collections.emptyList());
         assertNotNull(client);
     }

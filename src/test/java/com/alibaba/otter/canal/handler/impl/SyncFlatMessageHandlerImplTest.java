@@ -6,6 +6,8 @@ import com.alibaba.otter.canal.protocol.CanalEntry;
 import com.alibaba.otter.canal.protocol.FlatMessage;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -24,16 +26,16 @@ class SyncFlatMessageHandlerImplTest {
     void shouldCreateWithDefaultEntryTypes() {
         TestEntryHandler entryHandler = new TestEntryHandler();
         SyncFlatMessageHandlerImpl handler = new SyncFlatMessageHandlerImpl(
-                List.of(entryHandler), new NoOpMapRowDataHandler());
+                Arrays.asList(entryHandler), new NoOpMapRowDataHandler());
         assertNotNull(handler);
     }
 
     @Test
     void shouldCreateWithCustomEntryTypes() {
         TestEntryHandler entryHandler = new TestEntryHandler();
-        List<CanalEntry.EntryType> types = List.of(CanalEntry.EntryType.ROWDATA);
+        List<CanalEntry.EntryType> types = Collections.unmodifiableList(Arrays.asList(CanalEntry.EntryType.ROWDATA));
         SyncFlatMessageHandlerImpl handler = new SyncFlatMessageHandlerImpl(
-                types, List.of(entryHandler), new NoOpMapRowDataHandler());
+                types, Arrays.asList(entryHandler), new NoOpMapRowDataHandler());
         assertNotNull(handler);
     }
 
@@ -41,7 +43,7 @@ class SyncFlatMessageHandlerImplTest {
     void shouldHandleEmptyDataMessage() {
         TestEntryHandler entryHandler = new TestEntryHandler();
         SyncFlatMessageHandlerImpl handler = new SyncFlatMessageHandlerImpl(
-                List.of(entryHandler), new NoOpMapRowDataHandler());
+                Arrays.asList(entryHandler), new NoOpMapRowDataHandler());
 
         FlatMessage flatMessage = new FlatMessage();
         flatMessage.setId(1L);

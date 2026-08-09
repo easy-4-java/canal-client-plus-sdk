@@ -7,6 +7,8 @@ import com.alibaba.otter.canal.protocol.FlatMessage;
 import org.junit.jupiter.api.Test;
 import org.springframework.scheduling.concurrent.ThreadPoolTaskExecutor;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
@@ -28,7 +30,7 @@ class AsyncFlatMessageHandlerImplTest {
 
         TestEntryHandler entryHandler = new TestEntryHandler();
         AsyncFlatMessageHandlerImpl handler = new AsyncFlatMessageHandlerImpl(
-                List.of(entryHandler), new NoOpMapRowDataHandler(), executor);
+                Arrays.asList(entryHandler), new NoOpMapRowDataHandler(), executor);
         assertNotNull(handler);
         executor.shutdown();
     }
@@ -39,9 +41,9 @@ class AsyncFlatMessageHandlerImplTest {
         executor.initialize();
 
         TestEntryHandler entryHandler = new TestEntryHandler();
-        List<CanalEntry.EntryType> types = List.of(CanalEntry.EntryType.ROWDATA);
+        List<CanalEntry.EntryType> types = Collections.unmodifiableList(Arrays.asList(CanalEntry.EntryType.ROWDATA));
         AsyncFlatMessageHandlerImpl handler = new AsyncFlatMessageHandlerImpl(
-                types, List.of(entryHandler), new NoOpMapRowDataHandler(), executor);
+                types, Arrays.asList(entryHandler), new NoOpMapRowDataHandler(), executor);
         assertNotNull(handler);
         executor.shutdown();
     }
@@ -54,7 +56,7 @@ class AsyncFlatMessageHandlerImplTest {
 
         TestEntryHandler entryHandler = new TestEntryHandler();
         AsyncFlatMessageHandlerImpl handler = new AsyncFlatMessageHandlerImpl(
-                List.of(entryHandler), new NoOpMapRowDataHandler(), executor);
+                Arrays.asList(entryHandler), new NoOpMapRowDataHandler(), executor);
 
         FlatMessage flatMessage = new FlatMessage();
         flatMessage.setId(1L);

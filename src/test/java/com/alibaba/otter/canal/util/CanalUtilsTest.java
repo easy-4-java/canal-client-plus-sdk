@@ -4,6 +4,7 @@ import com.alibaba.otter.canal.protocol.CanalEntry;
 import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
@@ -107,7 +108,7 @@ class CanalUtilsTest {
     void shouldPrintColumnWithoutThrowing() {
         CanalEntry.Column column = CanalEntry.Column.newBuilder()
                 .setName("id").setValue("1").setMysqlType("int").build();
-        List<CanalEntry.Column> columns = List.of(column);
+        List<CanalEntry.Column> columns = Arrays.asList(column);
 
         assertDoesNotThrow(() -> CanalUtils.printColumn(columns));
     }
@@ -116,7 +117,7 @@ class CanalUtilsTest {
     void shouldPrintColumnWithUpdatedFlag() {
         CanalEntry.Column column = CanalEntry.Column.newBuilder()
                 .setName("name").setValue("test").setMysqlType("varchar").setUpdated(true).build();
-        assertDoesNotThrow(() -> CanalUtils.printColumn(List.of(column)));
+        assertDoesNotThrow(() -> CanalUtils.printColumn(Arrays.asList(column)));
     }
 
     @Test
@@ -136,7 +137,7 @@ class CanalUtilsTest {
         CanalEntry.Pair xaXid = CanalEntry.Pair.newBuilder()
                 .setKey("XA_XID").setValue("xid-123").build();
 
-        assertDoesNotThrow(() -> CanalUtils.printXAInfo(List.of(xaType, xaXid)));
+        assertDoesNotThrow(() -> CanalUtils.printXAInfo(Arrays.asList(xaType, xaXid)));
     }
 
     @Test
