@@ -11,7 +11,7 @@ import java.lang.annotation.*;
  * When placed on a method, it is invoked when a row is deleted from
  * the specified table.
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see OnCanalEvent
  */

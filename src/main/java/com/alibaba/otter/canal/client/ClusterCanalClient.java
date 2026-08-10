@@ -10,7 +10,7 @@ import java.util.List;
  * Canal client for cluster mode. Connects to a Canal cluster using
  * a {@link ClusterCanalConnector} which supports automatic failover.
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see AbstractCanalClient
  * @see SimpleCanalClient

@@ -18,7 +18,7 @@ import java.util.stream.Collectors;
  * converting column data into model objects via the configured
  * {@link IModelFactory}.
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see RowDataHandler
  * @see IModelFactory

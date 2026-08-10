@@ -20,7 +20,7 @@ import java.util.stream.Collectors;
  * composite keys from destination/schema/table/eventType combinations,
  * and filtering annotation-based event holders.
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see CanalEventHolder
  * @see CanalTable

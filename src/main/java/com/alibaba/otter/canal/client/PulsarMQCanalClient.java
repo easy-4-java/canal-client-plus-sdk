@@ -11,7 +11,7 @@ import java.util.List;
  * Canal client for PulsarMQ mode. Consumes Canal events from an Apache
  * Pulsar topic using a {@link PulsarMQCanalConnector}.
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see AbstractMQCanalClient
  */

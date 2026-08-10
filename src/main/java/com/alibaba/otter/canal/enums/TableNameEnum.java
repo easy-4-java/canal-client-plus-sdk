@@ -7,7 +7,7 @@ import java.util.StringJoiner;
  * a single wildcard entry {@link #ALL} that matches any destination, schema,
  * and table combination.
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see com.alibaba.otter.canal.annotation.CanalTable
  */

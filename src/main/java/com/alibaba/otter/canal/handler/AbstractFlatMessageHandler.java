@@ -32,7 +32,7 @@ import java.util.stream.Stream;
  * <p>Also implements {@link ApplicationContextAware} to discover and
  * register {@link CanalEventHandler}-annotated beans on startup.</p>
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see SyncFlatMessageHandlerImpl
  * @see AsyncFlatMessageHandlerImpl

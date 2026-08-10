@@ -15,7 +15,7 @@ import java.util.Map;
  * Processes {@link FlatMessage} objects on the calling thread,
  * blocking until all data rows have been handled.
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see AbstractFlatMessageHandler
  * @see AsyncFlatMessageHandlerImpl

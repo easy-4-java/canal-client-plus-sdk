@@ -9,7 +9,7 @@ import com.alibaba.otter.canal.protocol.CanalEntry;
  * handler method (insert, update, or delete).
  *
  * @param <T> the row data type (e.g., {@code RowData} or {@code List<Map<String,String>>})
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see com.alibaba.otter.canal.handler.impl.RowDataHandlerImpl
  * @see com.alibaba.otter.canal.handler.impl.MapRowDataHandlerImpl

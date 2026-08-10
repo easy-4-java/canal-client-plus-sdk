@@ -25,7 +25,7 @@ import java.util.concurrent.ConcurrentHashMap;
  * corresponding MyBatis-Plus table name, and construct argument
  * arrays for reflective method invocation.</p>
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see EntryHandler
  * @see HandlerUtil

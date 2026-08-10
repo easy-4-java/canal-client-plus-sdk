@@ -15,7 +15,7 @@ import com.alibaba.otter.canal.util.HandlerUtil;
  * {@link #newInstance(Class, Object)} for type-safe conversion.</p>
  *
  * @param <T> the raw data type consumed by the factory
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see IModelFactory
  * @see EntryColumnModelFactory

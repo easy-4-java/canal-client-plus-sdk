@@ -29,7 +29,7 @@ import java.util.stream.Collectors;
  * the entity class from the handler's generic type and populates it
  * using reflection.</p>
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see AbstractModelFactory
  * @see MapColumnModelFactory

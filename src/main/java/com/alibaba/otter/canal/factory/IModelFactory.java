@@ -11,7 +11,7 @@ import java.util.Set;
  * to materialize entity instances from change event payloads.
  *
  * @param <T> the raw data type consumed by the factory (e.g., column list or map)
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see EntryColumnModelFactory
  * @see MapColumnModelFactory

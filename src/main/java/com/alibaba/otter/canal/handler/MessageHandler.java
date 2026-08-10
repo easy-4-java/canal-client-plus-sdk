@@ -6,7 +6,7 @@ package com.alibaba.otter.canal.handler;
  * the actual event dispatching or processing logic.
  *
  * @param <T> the message type (e.g., {@code Message} or {@code FlatMessage})
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see AbstractMessageHandler
  * @see AbstractFlatMessageHandler

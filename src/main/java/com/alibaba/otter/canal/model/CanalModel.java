@@ -15,7 +15,7 @@ import lombok.Setter;
  * the {@link com.alibaba.otter.canal.context.CanalContext} thread-local
  * for use by downstream event handler methods.</p>
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see com.alibaba.otter.canal.context.CanalContext
  */

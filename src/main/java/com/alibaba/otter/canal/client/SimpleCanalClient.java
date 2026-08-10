@@ -11,7 +11,7 @@ import java.util.List;
  * Canal client for simple (direct TCP) mode. Connects to a single
  * Canal server instance using a {@link SimpleCanalConnector}.
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see AbstractCanalClient
  * @see ClusterCanalClient

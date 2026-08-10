@@ -11,7 +11,7 @@ import com.alibaba.ttl.TransmittableThreadLocal;
  * <p>Uses {@link TransmittableThreadLocal} so that the context propagates
  * correctly across thread pools (e.g., when async handlers are used).</p>
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see CanalModel
  */

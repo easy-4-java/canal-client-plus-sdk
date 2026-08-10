@@ -10,7 +10,7 @@ import java.util.List;
  * Canal client for RocketMQ mode. Consumes Canal events from a RocketMQ
  * topic using a {@link RocketMQCanalConnector}.
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see AbstractMQCanalClient
  */

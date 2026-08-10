@@ -11,7 +11,7 @@ import java.lang.annotation.*;
  * <p>All attributes default to wildcards ({@code "*"}), meaning the handler
  * will match all destinations, schemas, and tables unless constrained.</p>
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see OnCanalEvent
  * @see com.alibaba.otter.canal.handler.EntryHandler

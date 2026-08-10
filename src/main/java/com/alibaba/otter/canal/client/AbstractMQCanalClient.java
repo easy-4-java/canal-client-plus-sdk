@@ -14,7 +14,7 @@ import java.util.List;
  * objects, making it suitable for MQ pipelines that deliver JSON payloads.
  *
  * @param <C> the MQ Canal connector type
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see KafkaCanalClient
  * @see RocketMQCanalClient

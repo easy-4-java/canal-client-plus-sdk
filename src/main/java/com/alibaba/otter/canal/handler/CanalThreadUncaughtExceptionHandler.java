@@ -6,7 +6,7 @@ import lombok.extern.slf4j.Slf4j;
  * Default uncaught exception handler for Canal client worker threads.
  * Logs the thread name and exception at ERROR level.
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  */
 @Slf4j

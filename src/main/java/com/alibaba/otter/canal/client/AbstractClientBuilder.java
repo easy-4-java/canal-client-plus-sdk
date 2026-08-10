@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
  *
  * @param <R> the Canal client type to build
  * @param <C> the Canal connector type
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see CanalClient
  */

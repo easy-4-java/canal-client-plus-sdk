@@ -15,7 +15,7 @@ import java.util.List;
  * Delegates message processing to a {@link ThreadPoolTaskExecutor}
  * so that the Canal polling thread is not blocked.
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see AbstractMessageHandler
  * @see SyncMessageHandlerImpl

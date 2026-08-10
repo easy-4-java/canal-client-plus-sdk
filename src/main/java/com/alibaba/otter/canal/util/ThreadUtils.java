@@ -25,7 +25,7 @@ import java.util.concurrent.atomic.AtomicInteger;
  * Utility class for creating and managing thread pools, thread factories,
  * and graceful shutdown of threads and executor services.
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  */
 @Slf4j

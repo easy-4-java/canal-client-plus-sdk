@@ -17,7 +17,7 @@ import java.util.Map;
  * <p>This factory is used with the FlatMessage pipeline where row data
  * arrives as maps rather than as protobuf column objects.</p>
  *
- * @author [@Loong Wan](https://github.com/loong10k)
+ * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
  * @see AbstractModelFactory
  * @see EntryColumnModelFactory
