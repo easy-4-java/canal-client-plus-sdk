@@ -6,6 +6,8 @@
     <name>${project.groupId}:${project.artifactId}</name>
     <url>https://github.com/easy-4-java/${project.artifactId}</url>
     <description>Canal Client Plus SDK - Handlers, Models, Annotations (Spring Boot Independent)</description>
+    <version>2.0.x.20260630-SNAPSHOT</version>
+    <packaging>jar</packaging>
 
     <!-- 开源协议采用 Apache 2.0 协议 -->
     <licenses>
@@ -35,8 +37,6 @@
             <timezone>+8</timezone>
         </developer>
     </developers>
-    <version>2.0.x.20260630-SNAPSHOT</version>
-    <packaging>jar</packaging>
 
     <!-- 版本属性定义：Java 版本、依赖版本与 Maven 插件版本统一管理 -->
     <properties>
@@ -291,6 +291,18 @@
         </dependency>
     </dependencies>
 
+    <!-- 制品发布仓库配置（distributionManagement） -->
+    <distributionManagement>
+        <repository>
+            <id>2624322-release-6F6h6R</id>
+            <url>https://packages.aliyun.com/6927b116e6c3e0425dbdf60d/maven/2624322-release-6f6h6r</url>
+        </repository>
+        <snapshotRepository>
+            <id>2624322-snapshot-3EoOv3</id>
+            <url>https://packages.aliyun.com/6927b116e6c3e0425dbdf60d/maven/2624322-snapshot-3eoov3</url>
+        </snapshotRepository>
+    </distributionManagement>
+
     <!-- 构建配置（Build） -->
     <build>
         <pluginManagement>
@@ -414,18 +426,6 @@
             </plugin>
         </plugins>
     </build>
-
-    <!-- 制品发布仓库配置（distributionManagement） -->
-    <distributionManagement>
-        <repository>
-            <id>2624322-release-6F6h6R</id>
-            <url>https://packages.aliyun.com/6927b116e6c3e0425dbdf60d/maven/2624322-release-6f6h6r</url>
-        </repository>
-        <snapshotRepository>
-            <id>2624322-snapshot-3EoOv3</id>
-            <url>https://packages.aliyun.com/6927b116e6c3e0425dbdf60d/maven/2624322-snapshot-3eoov3</url>
-        </snapshotRepository>
-    </distributionManagement>
 
     <!-- 构建 Profile 配置 -->
     <profiles>
