@@ -54,7 +54,7 @@
         <lombok.version>1.18.46</lombok.version>
         <mybatis-plus.version>3.5.3.1</mybatis-plus.version>
         <pulsar-client.version>3.0.0</pulsar-client.version>
-        <rabbit-amqp-client.version>5.32.0</rabbit-amqp-client.version>
+        <rabbit-amqp-client.version>5.34.0</rabbit-amqp-client.version>
         <rocketmq-client.version>4.9.2</rocketmq-client.version>
         <slf4j.version>2.0.18</slf4j.version>
         <spring-framework.version>6.1.20</spring-framework.version>
