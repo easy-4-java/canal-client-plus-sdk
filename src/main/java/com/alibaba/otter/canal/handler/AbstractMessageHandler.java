@@ -31,8 +31,8 @@ import java.util.*;
  *
  * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
- * @see SyncMessageHandlerImpl
- * @see AsyncMessageHandlerImpl
+ * @see com.alibaba.otter.canal.handler.impl.SyncMessageHandlerImpl
+ * @see com.alibaba.otter.canal.handler.impl.AsyncMessageHandlerImpl
  * @see AbstractFlatMessageHandler
  */
 @Slf4j

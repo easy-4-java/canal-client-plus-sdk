@@ -34,8 +34,8 @@ import java.util.stream.Stream;
  *
  * @author <a href="https://github.com/loong10k">Loong Wan</a>
  * @since 3.0.0
- * @see SyncFlatMessageHandlerImpl
- * @see AsyncFlatMessageHandlerImpl
+ * @see com.alibaba.otter.canal.handler.impl.SyncFlatMessageHandlerImpl
+ * @see com.alibaba.otter.canal.handler.impl.AsyncFlatMessageHandlerImpl
  * @see AbstractMessageHandler
  */
 @Slf4j
