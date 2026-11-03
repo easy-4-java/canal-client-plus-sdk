@@ -19,8 +19,7 @@ import com.alibaba.otter.canal.protocol.CanalEntry;
 import com.alibaba.otter.canal.protocol.CanalEntry.*;
 import com.alibaba.otter.canal.protocol.Message;
 import com.google.protobuf.InvalidProtocolBufferException;
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.SystemUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.util.CollectionUtils;
@@ -43,7 +42,7 @@ import java.util.List;
 public class CanalUtils {
 
 	protected final static Logger             logger             = LoggerFactory.getLogger(CanalUtils.class);
-	protected static final String             SEP                = SystemUtils.LINE_SEPARATOR;
+	protected static final String             SEP                = System.lineSeparator();
 	protected static final String             DATE_FORMAT        = "yyyy-MM-dd HH:mm:ss";
     protected static String                   context_format     = null;
     protected static String                   row_format         = null;
