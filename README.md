@@ -270,10 +270,24 @@ RabbitMQ Java client 5.37.0 remains a `provided` dependency: consumers must
 select and update their runtime dependency themselves. The SDK Java baseline
 and public API are unchanged. Upstream 5.33 enables TLS hostname verification
 and JVM certificate validation; 5.37 prefers TLS 1.3. Verify broker protocols and
-trust stores if configuring TLS directly. Canal 1.1.7's RabbitMQ connector uses a
+trust stores if configuring TLS directly. Canal 1.1.8's RabbitMQ connector uses a
 plain ConnectionFactory and does not enable TLS, so this update does not enable
 TLS for Canal connections. Regression tests never contact a broker.
 
 See [5.33 compatibility changes](https://github.com/rabbitmq/rabbitmq-java-client/releases/tag/v5.33.0),
 [5.37 release](https://github.com/rabbitmq/rabbitmq-java-client/releases/tag/v5.37.0),
 and [later security fix](https://github.com/rabbitmq/rabbitmq-java-client/security/advisories/GHSA-cqgh-8p3p-mx4m).
+
+### Commons Lang compatibility and remaining security advisory
+
+SDK-owned utilities use `commons-lang3` 3.20.0. Legacy `commons-lang` 2.6
+is deliberately retained for Canal runtime compatibility and existing consumers.
+Canal client/common bytecode still references the old package, including cluster
+address parsing, ZooKeeper paths and exception inheritance. `commons-lang3` has
+a different package and cannot replace those classes. Do not globally exclude
+legacy Lang without migrating and validating upstream and downstream users.
+
+[CVE-2025-48924](https://github.com/advisories/GHSA-j288-q9x7-2f5v) remains
+applicable to the retained legacy artifact; there is no patched Lang 2 release.
+This SDK migration does **not** eliminate that dependency or close the advisory.
+Complete removal requires an upstream-compatible migration and downstream review.
