@@ -263,3 +263,20 @@ GitHub Releases; the project is not yet published to Maven Central.
 Contributions are welcome — please open issues or pull requests on GitHub.
 
 Licensed under the [Apache License, Version 2.0](https://www.apache.org/licenses/LICENSE-2.0.txt).
+
+### RabbitMQ runtime dependency and TLS
+
+The SDK compiles and tests against RabbitMQ Java client 5.37.0 on JDK 17.
+`amqp-client` remains `provided`: applications must select and supply their own
+runtime version; updating this POM does not upgrade existing applications.
+Compared with 5.32.0, the upstream client enables hostname verification for TLS
+and validates server certificates with the JVM trust configuration. Version
+5.37.0 prefers TLS 1.3. Applications configuring TLS directly must verify broker
+protocol support and trust stores; do not disable verification to hide failures.
+The Canal 1.1.7 RabbitMQ connector used here creates a plain ConnectionFactory
+and does not itself enable TLS, so this dependency update does not enable TLS
+for Canal connections. No broker is contacted by the regression tests.
+
+Upstream: [5.33.0 compatibility notes](https://github.com/rabbitmq/rabbitmq-java-client/releases/tag/v5.33.0),
+[5.37.0 release](https://github.com/rabbitmq/rabbitmq-java-client/releases/tag/v5.37.0),
+[security advisories](https://github.com/rabbitmq/rabbitmq-java-client/security/advisories).
