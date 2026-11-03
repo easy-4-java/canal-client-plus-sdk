@@ -280,3 +280,17 @@ for Canal connections. No broker is contacted by the regression tests.
 Upstream: [5.33.0 compatibility notes](https://github.com/rabbitmq/rabbitmq-java-client/releases/tag/v5.33.0),
 [5.37.0 release](https://github.com/rabbitmq/rabbitmq-java-client/releases/tag/v5.37.0),
 [security advisories](https://github.com/rabbitmq/rabbitmq-java-client/security/advisories).
+
+### Commons Lang compatibility and remaining security advisory
+
+SDK-owned utilities use `commons-lang3` 3.20.0. Legacy `commons-lang` 2.6
+is deliberately retained for Canal runtime compatibility and existing consumers.
+Canal client/common bytecode still references the old package, including cluster
+address parsing, ZooKeeper paths and exception inheritance. `commons-lang3` has
+a different package and cannot replace those classes. Do not globally exclude
+legacy Lang without migrating and validating upstream and downstream users.
+
+[CVE-2025-48924](https://github.com/advisories/GHSA-j288-q9x7-2f5v) remains
+applicable to the retained legacy artifact; there is no patched Lang 2 release.
+This SDK migration does **not** eliminate that dependency or close the advisory.
+Complete removal requires an upstream-compatible migration and downstream review.
