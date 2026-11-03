@@ -3,7 +3,7 @@ package com.alibaba.otter.canal.client;
 import com.alibaba.otter.canal.handler.MessageHandler;
 import com.alibaba.otter.canal.protocol.CanalEntry;
 import lombok.experimental.Accessors;
-import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang3.StringUtils;
 
 import java.util.Arrays;
 import java.util.List;
